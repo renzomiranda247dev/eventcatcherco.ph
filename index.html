@@ -1,0 +1,433 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Event Catcher Co. Home</title>
+
+    <!-- Google Font: Bebas Neue -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <!-- FLAVICON -->
+    <link rel="icon" type="image/x-icon" href="assets/EVENT CATCHER LOGO FINAL-07.png">
+    <!-- Tailwind CDN config: map existing 'qb' family to Bebas Neue -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        qb: ['"Bebas Neue"', 'ui-sans-serif', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Swiper (cards effect) -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@9/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script>
+
+    <!-- Small helpers (shadow + transitions + accessible focus) -->
+    <style>
+      .soft-shadow { box-shadow: 0 6px 18px rgba(0,0,0,0.45); }
+      /* Ensure images never overflow their containers */
+      img { max-width: 100%; height: auto; display: block; }
+    </style>
+</head>
+<body class="bg-[#262626] text-white antialiased font-qb text-sm sm:text-base">
+
+    <!-- Header / Navigation (collapsible on small screens) -->
+    <header class="w-full bg-gradient-to-r from-[#6b28a8] via-[#00c6ff] to-[#ff6bb5]">
+        <nav class="mx-auto max-w-6xl px-4 md:px-6 py-3 sm:py-5">
+            <div class="flex items-center justify-between">
+                <!-- Logo or name (clickable - returns to home) -->
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-white/25" aria-label="Event Catcher Co - Home" title="Home">
+                        <img src="assets/4-05.png" alt="Event Catcher Co" class="h-10 sm:h-12 w-auto"/>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden sm:flex gap-3 items-center">
+                    <a href="#about" class="uppercase text-xs sm:text-sm py-2 px-3 sm:px-4 rounded-md bg-gradient-to-b from-[#8b3bd8] to-[#6b28a8] hover:opacity-95 transition soft-shadow focus:outline-none focus:ring-2 focus:ring-white/25">About Us</a>
+                    <a href="#contact" class="uppercase text-xs sm:text-sm py-2 px-3 sm:px-4 rounded-md bg-gradient-to-b from-[#00c6ff] to-[#0072ff] hover:opacity-95 transition soft-shadow focus:outline-none focus:ring-2 focus:ring-white/25">Contact</a>
+                    <a href="#faq" class="uppercase text-xs sm:text-sm py-2 px-3 sm:px-4 rounded-md bg-gradient-to-b from-[#ff6bb5] to-[#b13bff] hover:opacity-95 transition soft-shadow focus:outline-none focus:ring-2 focus:ring-white/25">FAQ</a>
+
+                    <a href="https://www.facebook.com/share/1YpcSUih29/" target="_blank" rel="noopener" class="uppercase text-xs sm:text-sm py-2 px-3 sm:px-4 rounded-md bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-bold hover:scale-[0.995] transition-transform soft-shadow focus:outline-none focus:ring-2 focus:ring-white/40">Book Now</a>
+                </div>
+
+                <!-- Mobile toggle button -->
+                <div class="sm:hidden flex items-center">
+                    <button id="nav-toggle" aria-controls="mobile-menu" aria-expanded="false" class="p-2 rounded-md bg-white/6 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-white/30" title="Toggle menu">
+                        <!-- open icon -->
+                        <svg id="icon-open" class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                        <!-- close icon (hidden by default) -->
+                        <svg id="icon-close" class="h-6 w-6 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu (collapsible) -->
+            <div id="mobile-menu" class="sm:hidden hidden mt-3 rounded-lg overflow-hidden">
+                <div class="bg-gradient-to-b from-[#1f1f1f] to-[#2b2b2b] p-4 space-y-3 soft-shadow">
+                    <a href="#about" class="block text-center uppercase text-sm py-3 px-4 rounded-md bg-gradient-to-b from-[#8b3bd8] to-[#6b28a8] hover:opacity-95 transition">About Us</a>
+                    <a href="#contact" class="block text-center uppercase text-sm py-3 px-4 rounded-md bg-gradient-to-b from-[#00c6ff] to-[#0072ff] hover:opacity-95 transition">Contact</a>
+                    <a href="#faq" class="block text-center uppercase text-sm py-3 px-4 rounded-md bg-gradient-to-b from-[#ff6bb5] to-[#b13bff] hover:opacity-95 transition">FAQ</a>
+
+                    <a href="https://www.facebook.com/share/1YpcSUih29/" target="_blank" rel="noopener" class="block text-center uppercase text-sm py-3 px-4 rounded-md bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-bold">Book Now</a>
+                </div>
+            </div>
+        </nav>
+
+        <script>
+            (function() {
+                const toggle = document.getElementById('nav-toggle');
+                const menu = document.getElementById('mobile-menu');
+                const iconOpen = document.getElementById('icon-open');
+                const iconClose = document.getElementById('icon-close');
+
+                if (!toggle || !menu) return;
+
+                toggle.addEventListener('click', () => {
+                    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+                    toggle.setAttribute('aria-expanded', String(!expanded));
+                    menu.classList.toggle('hidden');
+                    iconOpen.classList.toggle('hidden');
+                    iconClose.classList.toggle('hidden');
+                });
+
+                // Close the mobile menu when a link is clicked (improves UX for single-page anchors)
+                menu.querySelectorAll('a').forEach(a => {
+                    a.addEventListener('click', () => {
+                        menu.classList.add('hidden');
+                        toggle.setAttribute('aria-expanded', 'false');
+                        iconOpen.classList.remove('hidden');
+                        iconClose.classList.add('hidden');
+                    });
+                });
+
+                // Optional: close if user clicks outside the menu
+                document.addEventListener('click', (e) => {
+                    if (menu.classList.contains('hidden')) return;
+                    const isClickInside = menu.contains(e.target) || toggle.contains(e.target);
+                    if (!isClickInside) {
+                        menu.classList.add('hidden');
+                        toggle.setAttribute('aria-expanded', 'false');
+                        iconOpen.classList.remove('hidden');
+                        iconClose.classList.add('hidden');
+                    }
+                });
+            })();
+        </script>
+    </header>
+
+    <main class="mx-auto max-w-6xl px-4 md:px-6 py-6 md:py-10 space-y-10">
+
+        <!-- Slider (Swiper - Cards effect) -->
+        <section aria-label="Featured slider" class="w-full">
+            <!-- Use responsive aspect-ratio to make slider adapt across devices -->
+            <div class="swiper mx-auto max-w-5xl aspect-[16/9] sm:aspect-[4/3] md:aspect-[3/2] lg:aspect-[16/7] rounded-2xl overflow-hidden">
+            <div class="swiper-wrapper h-full">
+                <!-- Replace these images with your high quality images (placed in /assets/images/) -->
+                <div class="swiper-slide flex items-center justify-center bg-gradient-to-br from-[#1f1f1f] to-[#2b2b2b] rounded-2xl overflow-hidden h-full">
+                <img src="assets/market/CONVERTED.png" alt="slide 1" class="object-cover w-full h-full" />
+                </div>
+                <div class="swiper-slide flex items-center justify-center bg-gradient-to-br from-[#1f1f1f] to-[#2b2b2b] rounded-2xl overflow-hidden h-full">
+                <img src="assets/market/IMG_2905.JPG" alt="slide 2" class="object-cover w-full h-full" />
+                </div>
+                <div class="swiper-slide flex items-center justify-center bg-gradient-to-br from-[#1f1f1f] to-[#2b2b2b] rounded-2xl overflow-hidden h-full">
+                <img src="assets/market/ST LUKES.png" alt="slide 3" class="object-cover w-full h-full" />
+                </div>
+            </div>
+            </div>
+
+            <!-- Pagination / Controls (kept minimal) -->
+            <!-- <div class="swiper-buttons flex gap-2 mt-4 justify-center">
+            <button class="prev-btn bg-white/10 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/30">Prev</button>
+            <button class="next-btn bg-white/10 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-white/30">Next</button>
+            </div> -->
+        </section>
+
+        <!-- Banner card using the 2 pasted images -->
+        <section class="w-full">
+            <div class="bg-gradient-to-r from-[#19183B] to-[#222222] rounded-2xl p-4 md:p-6 flex flex-col md:flex-row items-center gap-6 soft-shadow">
+                <div class="flex-shrink-0 flex items-center justify-center gap-3">
+                    <img src="assets/9-05.png" alt="star" class="h-20 sm:h-28 md:h-36 lg:h-44 w-auto rounded-xl" />
+                </div>
+
+                <div class="flex-1 text-center md:text-left">
+                    <h2 class="uppercase text-xl sm:text-2xl md:text-3xl tracking-wider mb-2">An Arcade Machine Rental</h2>
+                    <p class="text-gray-200 mb-4 text-sm sm:text-base">Perfect for Birthdays, Weddings, Parties, and Corporate Events.</p>
+
+                    <div class="flex justify-center md:justify-start gap-3 flex-wrap">
+                        <a href="https://www.facebook.com/share/1YpcSUih29/" target="_blank" rel="noopener" class="uppercase px-4 sm:px-5 py-2.5 rounded-lg bg-gradient-to-r from-[#00c6ff] to-[#6b28a8] text-black font-bold text-xs sm:text-sm transform transition duration-200 hover:scale-[1.03] hover:brightness-105 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/30">Book Now</a>
+                        <a href="calendar.php"
+                            class="px-4 sm:px-5 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs sm:text-sm transform transition duration-200 hover:scale-[1.03] hover:brightness-105 hover:shadow-lg active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/30 cursor-pointer text-white font-semibold"
+                            target="_blank" rel="noopener">
+                          Check Availability
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature cards -->
+        <section aria-label="features" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div tabindex="0" role="button" class="bg-gradient-to-b from-[#222831] to-[#2b2b2b] rounded-xl p-5 text-center soft-shadow cursor-pointer transform transition duration-200 ease-out hover:scale-105 hover:-translate-y-1 hover:shadow-2xl hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-white/20">
+            <h3 class="uppercase tracking-wide mb-2 font-extrabold text-sm sm:text-base">DTI and BIR Registered Business</h3>
+            <p class="text-sm text-gray-200">Legitimate and compliant business. ✅📜</p>
+            </div>
+
+            <div tabindex="0" role="button" class="bg-gradient-to-b from-[#222831] to-[#2b2b2b] rounded-xl p-5 text-center soft-shadow cursor-pointer transform transition duration-200 ease-out hover:scale-105 hover:-translate-y-1 hover:shadow-2xl hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-white/20">
+            <h3 class="uppercase tracking-wide mb-2 font-extrabold text-sm sm:text-base">High Quality Machines</h3>
+            <p class="text-sm text-gray-200">Well maintained and reliable units. ✅🛠️🎉</p>
+            </div>
+
+            <div tabindex="0" role="button" class="bg-gradient-to-b from-[#222831] to-[#2b2b2b] rounded-xl p-5 text-center soft-shadow cursor-pointer transform transition duration-200 ease-out hover:scale-105 hover:-translate-y-1 hover:shadow-2xl hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-white/20">
+            <h3 class="uppercase tracking-wide mb-2 font-extrabold text-sm sm:text-base">Lowest Price in the market</h3>
+            <p class="text-sm text-gray-200">Competitive rates and transparent pricing 💸✅🎉</p>
+            </div>
+
+            <div tabindex="0" role="button" class="bg-gradient-to-b from-[#222831] to-[#2b2b2b] rounded-xl p-5 text-center soft-shadow cursor-pointer transform transition duration-200 ease-out hover:scale-105 hover:-translate-y-1 hover:shadow-2xl hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-white/20">
+            <h3 class="uppercase tracking-wide mb-2 font-extrabold text-sm sm:text-base">Hassle Free Transactions</h3>
+            <p class="text-sm text-gray-200">Smooth booking and pickup/delivery options 🚚📦✅</p>
+            </div>
+
+            <div tabindex="0" role="button" class="bg-gradient-to-b from-[#222831] to-[#2b2b2b] rounded-xl p-5 text-center soft-shadow cursor-pointer transform transition duration-200 ease-out hover:scale-105 hover:-translate-y-1 hover:shadow-2xl hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-white/20">
+            <h3 class="uppercase tracking-wide mb-2 font-extrabold text-sm sm:text-base">Brandable & Customizable</h3>
+            <p class="text-sm text-gray-200">🎉 Personalize machines for your event or brand ✨</p>
+            </div>
+        </section>
+
+        <!-- About Us -->
+        <section id="about" class="space-y-4">
+        <!-- Thin decorative gradient bar under nav for aesthetic -->
+        <div class="h-1.5 md:h-2 bg-gradient-to-r from-[#00c6ff] via-[#6b28a8] to-[#ff6bb5]"></div>
+            <h2 class="text-xl sm:text-2xl uppercase">About Us</h2>
+            <p class="text-gray-200 leading-relaxed max-w-4xl text-sm sm:text-base">
+            Event Catcher Co. provides fun, engaging arcade machine rentals for events across Metro Manila and nearby areas.
+            We specialize in delivering high quality, reliable machines for birthdays, weddings, corporate events and parties.
+            Our team handles careful preparation, quick setup, and clear communications — making sure your guests have an
+            unforgettable experience while you enjoy a hassle-free rental process.
+            </p>
+        </section>
+
+        <!-- Contact -->
+        <!-- Thin decorative gradient bar under nav for aesthetic -->
+        <div class="h-1.5 md:h-2 bg-gradient-to-r from-[#00c6ff] via-[#6b28a8] to-[#ff6bb5]"></div>
+        <h2 class="text-xl sm:text-2xl uppercase">Contact Us</h2>
+        <section id="contact" class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+            <!-- Map -->
+            <div class="rounded-2xl overflow-hidden soft-shadow">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <!-- Cubao, Quezon City -->
+                    <iframe class="w-full h-64 md:h-48 rounded-lg" frameborder="0" loading="lazy"
+                        src="https://maps.google.com/maps?q=Cubao%20Quezon%20City%20Philippines&z=15&output=embed"
+                        allowfullscreen></iframe>
+
+                    <!-- Rd 1, San Juan -->
+                    <iframe class="w-full h-64 md:h-48 rounded-lg" frameborder="0" loading="lazy"
+                        src="https://maps.google.com/maps?q=Rd%201%2C%20San%20Juan%2C%20Metro%20Manila&z=17&output=embed"
+                        allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <!-- Contact details -->
+            <div class="space-y-4">
+                <div tabindex="0" role="button" class="bg-gradient-to-b from-[#19183B] to-[#1f1f1f] rounded-2xl p-4 md:p-6 soft-shadow cursor-pointer transform transition duration-200 ease-out hover:scale-105 hover:-translate-y-1 hover:shadow-2xl hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-white/20">
+                    <h3 class="uppercase mb-3 text-sm sm:text-base">Get in touch with us!</h3>
+
+                    <div class="flex items-center gap-3 mb-3">
+                        <!-- phone icon -->
+                        <svg class="w-6 h-6 text-green-400 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M2 3.999A1 1 0 013 3h3.25a1 1 0 01.97.757l.72 3.187a1 1 0 01-.274.974l-1.14 1.139a15.054 15.054 0 006.286 6.287l1.14-1.14a1 1 0 01.974-.274l3.187.72A1 1 0 0121 18.749V22a1 1 0 01-1 1A19 19 0 012 4a1 1 0 010-1z"/></svg>
+                        <div>
+                            <div class="text-xs sm:text-sm text-gray-300">Mobile Text +63</div>
+                            <a class="text-white font-semibold text-sm sm:text-base" href="tel:+639369550650">0936 955 0650</a>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-4 mb-2">
+                        <!-- Whatsapp -->
+                        <a class="flex items-center gap-2" href="https://wa.me/639369550650" target="_blank" rel="noopener">
+                            <svg class="w-7 h-7 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.9 11.9 0 0012 0C5.373 0 .013 5.36 0 12a12 12 0 002.07 6.53L0 24l5.61-1.77A11.96 11.96 0 0012 24c6.627 0 11.987-5.36 12-12 0-3.2-1.25-6.23-3.48-8.52zM12 21.5c-1.33 0-2.63-.35-3.78-1.01l-.27-.15-3.33 1.05.89-3.24-.18-.27A8.5 8.5 0 013.5 12C3.5 6.86 7.86 2.5 12 2.5S20.5 6.86 20.5 12 16.14 21.5 12 21.5z"/><path d="M17.84 14.2c-.2-.1-1.18-.58-1.36-.64-.18-.06-.31-.1-.44.09-.13.19-.52.64-.64.77-.12.13-.25.14-.47.05-.22-.1-.92-.34-1.75-1.08-.65-.58-1.08-1.3-1.21-1.52-.13-.22-.01-.34.09-.44.09-.09.2-.26.3-.4.10-.13.13-.22.2-.37.06-.13.03-.25-.02-.35-.05-.1-.44-1.06-.6-1.45-.16-.38-.33-.33-.45-.34-.12-.01-.26-.01-.4-.01s-.35.05-.53.25c-.18.20-.69.68-.69 1.65s.71 1.92.81 2.06c.10.13 1.4 2.16 3.4 3.03 1.9.84 1.9.56 2.25.53.35-.03 1.16-.47 1.33-.92.17-.45.17-.84.12-.92-.05-.07-.18-.12-.38-.22z"/></svg>
+                            <span class="text-sm text-gray-300">WhatsApp</span>
+                        </a>
+
+                        <!-- Viber -->
+                        <a class="flex items-center gap-1" href="viber://chat?number=%2B639369550650">
+                            <svg class="w-7 h-7 text-purple-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 2.05.61 3.95 1.66 5.56L2 22l4.45-1.53A9.95 9.95 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zM8.59 8.59C8.21 8.21 7.59 8.21 7.21 8.59c-.39.39-.39 1.02 0 1.41l.01.01c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41zM12 9a3 3 0 11-.001 6.001A3 3 0 0112 9z"/></svg>
+                            <span class="text-sm text-gray-300">Viber</span>
+                        </a>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-4 mt-2">
+                        <!-- Tiktok & Facebook icons -->
+                        <a class="flex items-center gap-2 hover:opacity-90" href="https://tiktok.com/@EventCatcherCo" target="_blank" rel="noopener">
+                            <img src="https://www.tiktok.com/favicon.ico" alt="TikTok" class="w-5 h-5"/>
+                            <span class="text-sm text-gray-200">Tiktok</span>
+                        </a>
+
+                        <a class="flex items-center gap-2 hover:opacity-90" href="https://www.facebook.com/share/1YpcSUih29/" target="_blank" rel="noopener">
+                            <img src="https://www.facebook.com/favicon.ico" alt="Facebook" class="w-5 h-5" loading="lazy"/>
+                            <span class="text-sm text-gray-200">Facebook</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <div class="h-1.5 md:h-2 bg-gradient-to-r from-[#00c6ff] via-[#6b28a8] to-[#ff6bb5]"></div>
+        <section id="faq" class="space-y-4">
+            <h2 class="text-xl sm:text-2xl uppercase">Frequently Asked Questions</h2>
+
+            <div class="space-y-2 max-w-4xl">
+                <!-- Q1 -->
+                <div class="bg-[#242424] rounded-lg p-3 sm:p-4">
+                    <button class="w-full flex justify-between items-center faq-btn py-2">
+                        <span class="font-semibold uppercase text-sm sm:text-base">How much is the Rental Fee?</span>
+                        <span class="text-gray-400">+</span>
+                    </button>
+                    <div class="faq-panel hidden text-gray-200 pt-2 text-sm sm:text-base">
+                        <p>Thank you so much for your interest in our Arcade Machine Rental!</p>
+                        <p class="mt-2">We Have Three Options Available:</p>
+                        <ul class="list-disc pl-5 mt-1">
+                            <li><strong>Big Claw machine</strong> - ₱3,000 per day 💰 + Shipping Fee 💸🚚📦 + Prizes 🧸🎁 (Optional)</li>
+                            <li><strong>Mini Claw Machine</strong> - ₱2,000 per day 💰 + Shipping Fee 💸🚚📦 + Prizes 🧸🎁 (Optional)</li>
+                            <li><strong>Arcade Console Machine 🕹️🎮🕹️</strong> - ₱2,500 per day 💰 + Shipping Fee 💸🚚📦</li>
+                            <li><strong>Basketball Arcade Machine 🏀 </strong>- ₱5,000 per day 💰 + Shipping Fee 💸🚚📦 + Prizes 🧸🎁 (Optional)</li>
+                            
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="bg-[#242424] rounded-lg p-3 sm:p-4">
+                    <button class="w-full flex justify-between items-center faq-btn py-2">
+                        <span class="font-semibold uppercase text-sm sm:text-base">Do you deliver?</span>
+                        <span class="text-gray-400">+</span>
+                    </button>
+                    <div class="faq-panel hidden text-gray-200 pt-2 text-sm sm:text-base">
+                        <p>We offer flexible delivery options for our arcade machine rental. We can ship the machine via Lalamove or other trusted delivery couriers - please note that delivery fees will be shouldered by the renter. Alternatively, you're also welcome to personally pick up the machine using your own vehicle. Thank you!</p>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="bg-[#242424] rounded-lg p-3 sm:p-4">
+                    <button class="w-full flex justify-between items-center faq-btn py-2">
+                        <span class="font-semibold uppercase text-sm sm:text-base">Payment Methods</span>
+                        <span class="text-gray-400">+</span>
+                    </button>
+                    <div class="faq-panel hidden text-gray-200 pt-2 text-sm sm:text-base">
+                        <ul class="list-disc pl-5">
+                            <li>Cash</li>
+                            <li>Gcash/Maya</li>
+                            <li>Bank Transfer (MetroBank/Security Bank)</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+    <!-- Back-to-top trigger (placed at this location) -->
+    <div id="back-to-top-trigger" class="w-full h-1" aria-hidden="true"></div>
+
+    <!-- Back to top button -->
+    <button id="back-to-top-btn"
+        type="button"
+        aria-label="Back to top"
+        title="Back to top"
+        class="fixed bottom-6 right-4 z-50 hidden p-3 rounded-full bg-gradient-to-r from-[#6b28a8] via-[#00c6ff] to-[#ff6bb5] text-black shadow-lg focus:outline-none focus:ring-2 focus:ring-white/30 transform transition-transform duration-200"
+    >
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
+
+    <script>
+    (function(){
+      const trigger = document.getElementById('back-to-top-trigger');
+      const btn = document.getElementById('back-to-top-btn');
+
+      if (!trigger || !btn) return;
+
+      // Show button when the trigger element enters the viewport
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+        btn.classList.remove('hidden');
+        btn.style.opacity = '1';
+        btn.style.transform = 'translateY(0) scale(1)';
+          } else {
+        btn.classList.add('hidden');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      obs.observe(trigger);
+
+      // Smooth scroll to top
+      btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        btn.blur();
+      });
+
+      // Allow Esc to hide (optional UX)
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') btn.classList.add('hidden');
+      });
+    })();
+    </script>
+    <!-- Footer -->
+    <footer class="mt-8 md:mt-12">
+        <div class="bg-gradient-to-r from-[#6b28a8] via-[#00c6ff] to-[#ff6bb5] text-black py-6">
+            <div class="mx-auto max-w-6xl px-4 md:px-6 flex flex-col sm:flex-row justify-between items-center gap-3">
+                <div class="text-sm uppercase font-bold">Event Catcher Co. © <span id="year"></span></div>
+                <div class="text-sm">Designed &amp; Managed by Event Catcher Co. — All Rights Reserved</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Swiper init (cards effect). Using the bundled Swiper from CDN.
+        const swiper = new Swiper('.swiper', {
+            effect: 'cards',
+            grabCursor: true,
+            loop: true,
+            autoplay: { delay: 2000, disableOnInteraction: false },
+        });
+
+        // Hook up prev/next buttons (if visible)
+        document.querySelectorAll('.prev-btn').forEach(btn => btn.addEventListener('click', () => swiper.slidePrev()));
+        document.querySelectorAll('.next-btn').forEach(btn => btn.addEventListener('click', () => swiper.slideNext()));
+
+        // FAQ toggle logic
+        document.querySelectorAll('.faq-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const panel = btn.nextElementSibling;
+                const plus = btn.querySelector('span.text-gray-400');
+                if (panel.classList.contains('hidden')) {
+                    panel.classList.remove('hidden');
+                    plus.textContent = '-';
+                } else {
+                    panel.classList.add('hidden');
+                    plus.textContent = '+';
+                }
+            });
+        });
+
+        // small nicety: set year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+
+    <!-- Accessibility / fallback note: ensure images & font files are placed under /assets/images and /assets/fonts -->
+</body>
+</html>
